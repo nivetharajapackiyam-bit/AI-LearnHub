@@ -1,0 +1,380 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Quiz & Question Paper Generator</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <!-- NAVIGATION BAR -->
+    <nav class="navbar">
+
+        <div class="logo">🎓 AI LearnHub</div>
+
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="#generator">Quiz Generator</a>
+            <a href="#pdf-generator">PDF Quiz</a>
+            <a href="#text-generator">Text Quiz</a>
+            <a href="#dashboard">Student Dashboard</a>
+            <a href="#paper-generator">Question Paper</a>
+        </div>
+
+    </nav>
+
+
+    <!-- HERO SECTION -->
+    <header class="hero">
+
+        <div class="hero-content">
+
+            <span class="tag">POWERED BY GENERATIVE AI</span>
+
+            <h1>
+                Create Smart Quizzes<br>
+                with Artificial Intelligence
+            </h1>
+
+            <p>
+                Generate customized questions and practice smarter with AI.
+            </p>
+
+            <a href="#generator" class="start-btn">
+                Get Started →
+            </a>
+
+            <a href="#paper-generator" class="start-btn">
+                Create Question Paper →
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <main>
+
+        <!-- FEATURES SECTION -->
+        <section class="features">
+
+            <div class="feature-card">
+                <div class="feature-icon">🤖</div>
+                <h3>AI Powered</h3>
+                <p>Generate questions using Generative AI.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📚</div>
+                <h3>Multiple Topics</h3>
+                <p>Create questions from different subjects.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Custom Difficulty</h3>
+                <p>Choose easy, medium or hard questions.</p>
+            </div>
+
+        </section>
+
+
+        <!-- AI QUIZ GENERATOR -->
+        <section class="generator-section" id="generator">
+
+            <h2>✨ AI Quiz Generator</h2>
+
+            <p>Enter your preferences to generate questions.</p>
+
+            <form action="/generate" method="POST">
+
+                <label>Enter Your Topic</label>
+
+                <input type="text"
+                       name="topic"
+                       placeholder="Example: Artificial Intelligence"
+                       required>
+
+                <label>Number of Questions</label>
+
+                <input type="number"
+                       name="num_questions"
+                       min="1"
+                       max="30"
+                       value="5"
+                       required>
+
+                <label>Difficulty Level</label>
+
+                <select name="difficulty">
+                    <option value="Easy">Easy</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Hard">Hard</option>
+                </select>
+
+                <label>Question Type</label>
+
+                <select name="question_type">
+                    <option value="Multiple Choice">Multiple Choice (MCQ)</option>
+                    <option value="Short Answer">Short Answer</option>
+                    <option value="Long Answer">Long Answer</option>
+                </select>
+
+                <button type="submit">
+                    🚀 Generate Questions
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- PDF QUIZ GENERATOR -->
+        <section class="generator-section" id="pdf-generator">
+
+            <h2>📚 Generate Questions from PDF</h2>
+
+            <p>
+                Upload your study material and let AI create questions from it.
+            </p>
+
+            <form id="pdf-upload-form"
+                  action="/generate-from-pdf"
+                  method="POST"
+                  enctype="multipart/form-data">
+
+                <label>Upload Your PDF</label>
+
+                <input type="file"
+                       name="pdf_file"
+                       accept=".pdf,application/pdf"
+                       required>
+
+                <label>Number of Questions</label>
+
+                <input type="number"
+                       name="num_questions"
+                       min="1"
+                       max="30"
+                       value="5"
+                       required>
+
+                <label>Difficulty Level</label>
+
+                <select name="difficulty">
+                    <option value="Easy">Easy</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Hard">Hard</option>
+                </select>
+
+                <button type="submit">
+                    🚀 Generate Questions from PDF
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- TEXT QUIZ GENERATOR -->
+        <section class="generator-section" id="text-generator">
+
+            <h2>📝 Generate Quiz from Text</h2>
+
+            <p>
+                Paste your study notes and generate questions using AI.
+            </p>
+
+            <form action="/generate-from-text" method="POST">
+
+                <label>Paste Your Study Material</label>
+
+                <textarea
+                    name="study_text"
+                    rows="8"
+                    placeholder="Paste your study notes here..."
+                    required></textarea>
+
+                <label>Number of Questions</label>
+
+                <input type="number"
+                       name="num_questions"
+                       min="1"
+                       max="30"
+                       value="5"
+                       required>
+
+                <label>Difficulty Level</label>
+
+                <select name="difficulty">
+                    <option value="Easy">Easy</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Hard">Hard</option>
+                </select>
+
+                <button type="submit">
+                    🚀 Generate Quiz from Text
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- STUDENT DASHBOARD -->
+        <section class="dashboard-section" id="dashboard">
+
+            <h2>📊 Student Dashboard</h2>
+
+            <p>
+                Track your quiz performance and learning progress.
+            </p>
+
+            <div class="dashboard-cards">
+
+                <div class="dashboard-card">
+                    <h3>Total Quizzes</h3>
+                    <p id="total-quizzes">0</p>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>Average Score</h3>
+                    <p id="average-score">0%</p>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>Best Score</h3>
+                    <p id="best-score">0%</p>
+                </div>
+
+            </div>
+
+
+            <!-- QUIZ PERFORMANCE CHART -->
+            <div class="chart-section">
+
+                <h3>📊 Quiz Performance</h3>
+
+                <canvas id="performanceChart"></canvas>
+
+            </div>
+
+
+            <h3>Recent Quiz History</h3>
+
+            <button onclick="clearQuizHistory()"
+                    class="clear-btn">
+                🗑️ Clear Quiz History
+            </button>
+
+            <div id="quiz-history">
+                <p>No quiz attempts yet.</p>
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- AI QUESTION PAPER GENERATOR -->
+    <section class="paper-section" id="paper-generator">
+
+        <h2>📄 AI Question Paper Generator</h2>
+
+        <p>
+            Create a complete question paper for your subject.
+        </p>
+
+        <form action="/generate-paper" method="POST">
+
+            <label>Subject Name</label>
+
+            <input type="text"
+                   name="subject"
+                   placeholder="Example: Machine Learning"
+                   required>
+
+            <label>Total Marks</label>
+
+            <select name="marks">
+                <option value="25">25 Marks</option>
+                <option value="50">50 Marks</option>
+                <option value="75">75 Marks</option>
+                <option value="100">100 Marks</option>
+            </select>
+
+            <label>Difficulty Level</label>
+
+            <select name="difficulty">
+                <option value="Easy">Easy</option>
+                <option value="Medium">Medium</option>
+                <option value="Hard">Hard</option>
+            </select>
+
+            <label>Question Paper Type</label>
+
+            <select name="paper_type">
+                <option value="University Exam">University Exam</option>
+                <option value="Internal Assessment">Internal Assessment</option>
+                <option value="Model Exam">Model Exam</option>
+            </select>
+
+            <label>Question Format</label>
+
+            <select name="question_format">
+                <option value="MCQ">Multiple Choice Questions (MCQ)</option>
+                <option value="Short Answer">Short Answer Questions</option>
+                <option value="Long Answer">Long Answer Questions</option>
+                <option value="Mixed">Mixed Questions (MCQ + Short + Long)</option>
+            </select>
+
+            <button type="submit">
+                📝 Generate Question Paper
+            </button>
+
+        </form>
+
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer>
+
+        <p>
+            AI LearnHub | Built with Python, Flask & Generative AI
+        </p>
+
+    </footer>
+
+
+    <!-- CHART.JS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- PDF UPLOAD LOADING ANIMATION -->
+    <script>
+
+        const pdfForm = document.getElementById("pdf-upload-form");
+
+        pdfForm.addEventListener("submit", function() {
+
+            const button = this.querySelector('button[type="submit"]');
+
+            button.textContent = "⏳ Generating Questions...";
+
+            button.disabled = true;
+
+        });
+
+    </script>
+
+    <!-- MAIN JAVASCRIPT -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>

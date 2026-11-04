@@ -1,0 +1,137 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI LearnHub - Take Quiz</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <header class="navbar">
+        <h2>AI LearnHub</h2>
+        <a href="/">Home</a>
+    </header>
+
+    <main class="quiz-container">
+
+        <h1>Your AI Generated Quiz</h1>
+
+        <p class="quiz-description">
+            Answer all questions and submit to receive your results.
+        </p>
+
+        <div id="timer" class="timer">
+            Time Left: 10:00
+        </div>
+
+        <form id="quiz-form">
+
+            {% for q in questions %}
+
+            <div class="question-card">
+
+                <h3>
+                    Question {{ loop.index }}:
+                    {{ q.question }}
+                </h3>
+
+                <input
+                    type="hidden"
+                    class="correct-answer"
+                    value="{{ q.answer }}"
+                >
+
+                <input
+                    type="hidden"
+                    class="question-type-value"
+                    value="{{ q.type }}"
+                >
+
+                {% if q.type == "MCQ" or q.options %}
+
+                    <p class="question-type-label">
+                        Multiple Choice Question
+                    </p>
+
+                    <div class="options-container">
+
+                        {% for option in q.options %}
+
+                        <label class="option-label">
+
+                            <input
+                                type="radio"
+                                name="question{{ loop.index }}"
+                                value="{{ option }}"
+                                required
+                            >
+
+                            {{ option }}
+
+                        </label>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% elif q.type == "Short Answer" %}
+
+                    <p class="question-type-label">
+                        Short Answer Question
+                    </p>
+
+                    <input
+                        type="text"
+                        class="written-answer"
+                        placeholder="Type your answer here..."
+                        required
+                    >
+
+                {% else %}
+
+                    <p class="question-type-label">
+                        Long Answer Question
+                    </p>
+
+                    <textarea
+                        class="written-answer"
+                        rows="5"
+                        placeholder="Write your detailed answer here..."
+                        required
+                    ></textarea>
+
+                {% endif %}
+
+                <div class="explanation" hidden>
+                    {{ q.explanation }}
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+            <button
+                type="submit"
+                id="submit-btn"
+                class="submit-btn"
+            >
+                Submit Quiz
+            </button>
+
+        </form>
+
+        <section id="result" class="result-container" hidden>
+        </section>
+
+    </main>
+
+    <script src="{{ url_for('static', filename='quiz.js') }}"></script>
+
+</body>
+</html>

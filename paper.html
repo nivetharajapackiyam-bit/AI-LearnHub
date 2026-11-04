@@ -1,0 +1,111 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Generated Question Paper</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        .paper-header {
+            text-align: center;
+            border-bottom: 2px solid #333;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .paper-header h1 {
+            font-size: 25px;
+            margin-bottom: 8px;
+        }
+
+        .paper-content {
+            background: white;
+            color: #222;
+            padding: 25px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .paper-content pre {
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+            font-family: Arial, sans-serif;
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        .download-btn {
+            margin-top: 20px;
+        }
+
+        @media print {
+            body {
+                background: white !important;
+                color: black !important;
+            }
+
+            .generator-section {
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+                padding: 10px !important;
+                box-shadow: none !important;
+                background: white !important;
+            }
+
+            .paper-header {
+                border-bottom: 2px solid black;
+            }
+
+            .paper-content {
+                border: none;
+                padding: 10px;
+            }
+
+            .paper-content pre {
+                font-size: 12pt;
+                color: black;
+            }
+
+            .download-btn,
+            .back-link,
+            .generator-section > p {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="generator-section">
+
+        <div class="paper-header">
+            <h1>📄 QUESTION PAPER</h1>
+            <p>AI Generated Question Paper</p>
+        </div>
+
+        <div class="paper-content">
+            <pre>{{ paper_html | safe }}</pre>
+        </div>
+
+        <button type="button"
+                onclick="window.print()"
+                class="download-btn">
+            📥 Download Question Paper as PDF
+        </button>
+
+        <a href="/" class="back-link">
+            <button type="button">Back to Home</button>
+        </a>
+
+    </div>
+
+</body>
+</html>
